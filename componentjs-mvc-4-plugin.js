@@ -1,0 +1,49 @@
+/*
+**  ComponentJS-MVC -- Model-View-Controller Component Roles
+**  Copyright (c) 2016 Ralf S. Engelschall <rse@engelschall.com>
+**
+**  Permission is hereby granted, free of charge, to any person obtaining
+**  a copy of this software and associated documentation files (the
+**  "Software"), to deal in the Software without restriction, including
+**  without limitation the rights to use, copy, modify, merge, publish,
+**  distribute, sublicense, and/or sell copies of the Software, and to
+**  permit persons to whom the Software is furnished to do so, subject to
+**  the following conditions:
+**
+**  The above copyright notice and this permission notice shall be included
+**  in all copies or substantial portions of the Software.
+**
+**  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+**  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+**  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+**  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+**  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+**  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+**  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+*/
+
+/*  hook into ComponentJS as a plugin  */
+export default (MVC) => {
+    return () => {
+        MVC.ComponentJS.plugin("mvc", (_cs /*, $cs, GLOBAL */) => {
+            /*  mark created components with the proper marker for the
+                ComponentJS debugger without having to override the
+                create() method and this way case a "super.create()"
+                burden on the users of the MVC classes. */
+            _cs.latch("ComponentJS:comp-created", (comp) => {
+                let obj = comp.obj()
+                if (obj !== null && typeof obj === "object") {
+                    if (obj instanceof MVC.View)
+                        comp.mark("view")
+                    else if (obj instanceof MVC.Model)
+                        comp.mark("model")
+                    else if (obj instanceof MVC.Controller)
+                        comp.mark("controller")
+                    else if (obj instanceof MVC.Service)
+                        comp.mark("service")
+                }
+            })
+        })
+    }
+}
+
