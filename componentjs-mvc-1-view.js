@@ -41,7 +41,7 @@ export default function (MVC) {
             }, options)
             MVC.hook("mask:vue-options", "none", { id: id, options: opts })
             var state = MVC.ComponentJS(this).state()
-            var mask = MVC.ComponentJS(this).vue(opts, state)
+            var mask  = MVC.ComponentJS(this).vue(opts, state)
             MVC.hook("mask:vue-result", "none", { id: id, mask: mask })
             return mask
         }
