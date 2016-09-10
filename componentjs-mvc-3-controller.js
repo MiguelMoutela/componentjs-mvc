@@ -25,6 +25,10 @@
 export default function (MVC) {
     /*  abstract class for components in role Controller  */
     return class Controller extends MVC.Component {
+        /*  provide short-cut for fetching underlying service API  */
+        sv () {
+            return MVC.ComponentJS(this).property("sv")
+        }
     }
 }
 
