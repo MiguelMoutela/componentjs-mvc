@@ -25,6 +25,7 @@
 export default function (MVC) {
     /*  abstract class for components in role Model  */
     return class Model extends MVC.Component {
+        /*  pass-through model definition method  */
         model (...args) {
             return MVC.ComponentJS(this).model(...args)
         }
