@@ -39,8 +39,6 @@ export default (MVC) => {
                         comp.mark("model")
                     else if (obj instanceof MVC.Controller)
                         comp.mark("controller")
-                    else if (obj instanceof MVC.Service)
-                        comp.mark("service")
                 }
             })
         })
