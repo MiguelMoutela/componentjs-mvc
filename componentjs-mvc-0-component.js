@@ -92,8 +92,8 @@ export default function (MVC) {
                 name = [ name ]
             name.forEach((name) => {
                 let opts = Object.assign({}, {
-                    noevent: true,
-                    spool:   MVC.ComponentJS(this).state()
+                    spool:   MVC.ComponentJS(this).state(),
+                    noevent: true
                 }, options, {
                     name:    name,
                     func:    func
@@ -125,6 +125,10 @@ export default function (MVC) {
             name.forEach((name) => {
                 let opts = Object.assign({}, {
                     spool:     MVC.ComponentJS(this).state()
+                    noevent:   true,
+                    capturing: false,
+                    spreading: false,
+                    bubbling:  true
                 }, options, {
                     name:      name,
                     func:      func
@@ -133,12 +137,20 @@ export default function (MVC) {
             })
             return this
         }
-        publish (name, ...args) {
-            return MVC.ComponentJS(this).publish({
+        publish (name, args, options) {
+            let argv = args
+            if (!(typeof args === "object" && args instanceof Array))
+                argv = [ args ]
+            let opts = Object.assign({}, {
+                directresult: true,
+                capturing:    true,
+                spreading:    false,
+                bubbling:     true
+            }, options, {
                 name:         name,
-                args:         args,
-                directresult: true
+                args:         argv
             })
+            return MVC.ComponentJS(this).publish(opts)
         }
 
         /*  wrap service-related methods  */
@@ -147,20 +159,31 @@ export default function (MVC) {
                 name = [ name ]
             name.forEach((name) => {
                 let opts = Object.assign({}, {
-                    spool: MVC.ComponentJS(this).state()
+                    spool:     MVC.ComponentJS(this).state()
+                    capturing: false,
+                    spreading: false,
+                    bubbling:  true
                 }, options, {
-                    name:  name,
-                    func:  func
+                    name:      name,
+                    func:      func
                 })
                 return MVC.ComponentJS(this).register(opts)
             })
             return this
         }
-        call (name, ...args) {
-            return MVC.ComponentJS(this).call({
-                name: name,
-                args: args
+        call (name, args, options) {
+            let argv = args
+            if (!(typeof args === "object" && args instanceof Array))
+                argv = [ args ]
+            let opts = Object.assign({}, {
+                capturing: true,
+                spreading: false,
+                bubbling:  true
+            }, options, {
+                name:      name,
+                args:      argv
             })
+            return MVC.ComponentJS(this).call(opts)
         }
     }
 }
