@@ -124,7 +124,7 @@ export default function (MVC) {
                 name = [ name ]
             name.forEach((name) => {
                 let opts = Object.assign({}, {
-                    spool:     MVC.ComponentJS(this).state()
+                    spool:     MVC.ComponentJS(this).state(),
                     noevent:   true,
                     capturing: false,
                     spreading: false,
@@ -159,7 +159,7 @@ export default function (MVC) {
                 name = [ name ]
             name.forEach((name) => {
                 let opts = Object.assign({}, {
-                    spool:     MVC.ComponentJS(this).state()
+                    spool:     MVC.ComponentJS(this).state(),
                     capturing: false,
                     spreading: false,
                     bubbling:  true
