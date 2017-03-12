@@ -37,7 +37,7 @@ export default function (MVC) {
             if (typeof MVC.jQuery.markup !== "function")
                 throw new Error("mask: requires jQuery Markup")
             let opts = Object.assign({
-                template: MVC.jQuery.markup.render(id),
+                template: MVC.jQuery.markup.render(id)
             }, options)
             MVC.hook("mask:vue-options", "none", { id: id, options: opts })
             var state = MVC.ComponentJS(this).state()
