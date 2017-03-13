@@ -77,6 +77,9 @@ export default function (MVC) {
                 throw new Error(`my: no such component "${id}"`)
             return this.__ComponentJS_MVC_comp[id]
         }
+        exists (id) {
+            return this.__ComponentJS_MVC_comp && this.__ComponentJS_MVC_comp[id]
+        }
 
         /*  1:1 pass-through state-related methods  */
         state (...args) {
