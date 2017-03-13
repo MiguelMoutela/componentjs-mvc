@@ -31,18 +31,39 @@ export default function (MVC) {
         }
 
         /*  create a view mask with Vue  */
-        mask (id, options) {
+        mask (id, options = {}) {
+            /*  sanity check run-time  */
             if (!MVC.ComponentJS.plugin("vue"))
                 throw new Error("mask: requires ComponentJS Vue plugin")
             if (typeof MVC.jQuery.markup !== "function")
                 throw new Error("mask: requires jQuery Markup")
-            let opts = Object.assign({
-                template: MVC.jQuery.markup.render(id)
-            }, options)
-            MVC.hook("mask:vue-options", "none", { id: id, options: opts })
-            var state = MVC.ComponentJS(this).state()
-            var mask  = MVC.ComponentJS(this).vue(opts, state)
+
+            /*  allow convenient passing the result object of Vue.compile()  */
+            if (   typeof options.render === "object"
+                && typeof options.render.render === "function"
+                && typeof options.render.staticRenderFns === "object"
+                && options.render.staticRenderFns instanceof Array   ) {
+                let { render, staticRenderFns } = options.render
+                options.render          = render
+                options.staticRenderFns = staticRenderFns
+            }
+
+            /*  provide a template fallback via jQuery-Markup  */
+            if (   options.template === undefined
+                && options.render   === undefined)
+                options.template = MVC.jQuery.markup.render(id)
+
+            /*  allow others to hook into our processing initially  */
+            MVC.hook("mask:vue-options", "none", { id: id, options: options })
+
+            /*  pass-through options to ComponentJS-Vue plugin  */
+            let state = MVC.ComponentJS(this).state()
+            let mask  = MVC.ComponentJS(this).vue(options, state)
+
+            /*  allow others to hook into our processing finally  */
             MVC.hook("mask:vue-result", "none", { id: id, mask: mask })
+
+            /*  return the Vue mask object  */
             return mask
         }
 
