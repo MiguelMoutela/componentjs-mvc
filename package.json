@@ -3,7 +3,8 @@
     "version":         "0.9.5",
     "description":     "Abstract Classes for Model-View-Controller Component Roles",
     "keywords":        [ "componentjs", "model", "view", "controller", "role" ],
-    "main":            "lib/componentjs-mvc.js",
+    "main":            "./lib/componentjs-mvc.js",
+    "browser":         "./lib/componentjs-mvc.js",
     "repository": {
         "type":        "git",
         "url":         "https://github.com/rse/componentjs-mvc.git"

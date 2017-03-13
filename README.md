@@ -18,21 +18,30 @@ About
 [ComponentJS](https://componentjs.com/) is a generic hierarchical
 component orchestration library. It has no direct notion of any
 component roles, although it was designed with the roles of Ralf S.
-Engelschall's Model-View-Controller/Component-Tree (MVC/CT) pattern in
-mind, of course. ComponentJS MVC is an opinionated companion library to
+Engelschall's Model-View-Controller/Component-Tree (MVC/CT) pattern
+in mind. ComponentJS MVC is an opinionated companion library to
 [ComponentJS](https://componentjs.com/), providing ECMAScript 6 abstract
 classes for implementing the classes of ComponentJS backing objects
 by using the distinct Model, View or Controller roles of the MVC/CT
-pattern. The abstract classes map the major parts of the ComponentJS
-API onto local methods which then provide the ComponentJS functionality
-in a way which is slightly adjusted for convenience reasons and their
-distinct usage under MVC/CT.
+pattern. The abstract classes map the major and essential parts of the
+ComponentJS API onto local methods which then provide the ComponentJS
+functionality in a way which is slightly adjusted for convenience
+reasons and their distinct usage under MVC/CT. ComponentJS MVC is
+intended to simplify the programming of HTML5 Single-Page-Apps (SPA) in
+an Object-Oriented Programming (OOP) manner.
 
 Installation
 ------------
 
 ```shell
+# with the help of the NPM package manager
 $ npm install componentjs-mvc
+
+# with the help of the YARN package manager
+$ yarn add componentjs-mvc
+
+# with the help of the Bower package manager
+$ bower install componentjs-mvc
 ```
 
 Usage
