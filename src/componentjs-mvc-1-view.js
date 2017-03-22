@@ -27,6 +27,8 @@ export default function (MVC) {
     return class View extends MVC.Component {
         /*  expose convenience reference to jQuery  */
         $ (...args) {
+            if (typeof MVC.jQuery !== "function")
+                throw new Error("$: requires jQuery")
             return MVC.jQuery(...args)
         }
 
@@ -35,8 +37,6 @@ export default function (MVC) {
             /*  sanity check run-time  */
             if (!MVC.ComponentJS.plugin("vue"))
                 throw new Error("mask: requires ComponentJS Vue plugin")
-            if (typeof MVC.jQuery.markup !== "function")
-                throw new Error("mask: requires jQuery Markup")
 
             /*  allow convenient passing the result object of Vue.compile()  */
             if (   typeof options.render === "object"
@@ -48,10 +48,15 @@ export default function (MVC) {
                 options.staticRenderFns = staticRenderFns
             }
 
-            /*  provide a template fallback via jQuery-Markup  */
+            /*  provide a template fallback via jQuery Markup  */
             if (   options.template === undefined
-                && options.render   === undefined)
+                && options.render   === undefined) {
+                if (typeof MVC.jQuery !== "function")
+                    throw new Error("mask: template-by-id requires jQuery")
+                if (typeof MVC.jQuery.markup !== "function")
+                    throw new Error("mask: template-by-id requires jQuery Markup")
                 options.template = MVC.jQuery.markup.render(id)
+            }
 
             /*  allow others to hook into our processing initially  */
             MVC.hook("mask:vue-options", "none", { id: id, options: options })

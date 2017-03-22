@@ -42,7 +42,7 @@ const fatal = (err) => {
 /*  assemble the latchable API  */
 const MVC = new Latching()
 MVC.ComponentJS = global.ComponentJS || fatal("ComponentJS missing")
-MVC.jQuery      = global.jQuery      || fatal("jQuery missing")
+MVC.jQuery      = global.jQuery
 MVC.Component   = FactoryComponent(MVC)
 MVC.View        = FactoryView(MVC)
 MVC.Model       = FactoryModel(MVC)
