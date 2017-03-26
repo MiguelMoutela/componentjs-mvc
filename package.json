@@ -1,6 +1,6 @@
 {
     "name":            "componentjs-mvc",
-    "version":         "0.9.7",
+    "version":         "0.9.8",
     "description":     "Abstract Classes for Model-View-Controller Component Roles",
     "keywords":        [ "componentjs", "model", "view", "controller", "role" ],
     "main":            "./lib/componentjs-mvc.js",
