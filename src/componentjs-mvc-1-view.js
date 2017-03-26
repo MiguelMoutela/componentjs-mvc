@@ -72,12 +72,46 @@ export default function (MVC) {
             return mask
         }
 
-        /*  pass-through other socket-related methods  */
+        /*  wrap socket-related methods  */
         socket (...args) {
-            return MVC.ComponentJS(this).socket(...args)
+            if (   args.length === 3
+                && typeof args[0] === "object"
+                && typeof args[1] === "function"
+                && typeof args[2] === "function")
+                args = { ctx: args[0], plug: args[1], unplug: args[2] }
+            else if (args.length === 1 && typeof args[0] === "object")
+                args = args[0]
+            else
+                throw new Error("socket: invalid arguments")
+            if (args.spool === undefined)
+                args.spool = MVC.ComponentJS(this).state()
+            return MVC.ComponentJS(this).socket(args)
+        }
+        link (...args) {
+            if (   args.length === 2
+                && typeof args[0] === "object"
+                && typeof args[1] === "string")
+                args = { target: args[0], socket: args[1] }
+            else if (args.length === 1 && typeof args[0] === "object")
+                args = args[0]
+            else
+                throw new Error("link: invalid arguments")
+            if (args.spool === undefined)
+                args.spool = MVC.ComponentJS(this).state()
+            return MVC.ComponentJS(this).link(args)
         }
         plug (...args) {
-            return MVC.ComponentJS(this).plug(...args)
+            if (!(   args.length === 1
+                  && typeof args[0] === "object"
+                  && args[0].object !== undefined))
+                args = { object: args[0] }
+            else if (args.length === 1 && typeof args[0] === "object")
+                args = args[0]
+            else
+                throw new Error("plug: invalid arguments")
+            if (args.spool === undefined)
+                args.spool = MVC.ComponentJS(this).state()
+            return MVC.ComponentJS(this).plug(args)
         }
     }
 }
