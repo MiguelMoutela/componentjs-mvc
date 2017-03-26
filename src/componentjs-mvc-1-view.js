@@ -62,8 +62,8 @@ export default function (MVC) {
             MVC.hook("mask:vue-options", "none", { id: id, options: options })
 
             /*  pass-through options to ComponentJS-Vue plugin  */
-            let state = MVC.ComponentJS(this).state()
-            let mask  = MVC.ComponentJS(this).vue(options, state)
+            let spool = MVC.ComponentJS(this).state()
+            let mask  = MVC.ComponentJS(this).vue(options, spool)
 
             /*  allow others to hook into our processing finally  */
             MVC.hook("mask:vue-result", "none", { id: id, mask: mask })
