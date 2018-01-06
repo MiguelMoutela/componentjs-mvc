@@ -139,18 +139,56 @@ Application Programming Interface (API)
 
 - `class Component extends mvc.Component { ... }`:<br/>
   Define an application Component class based on ComponentJS-MVC's Component class
-  (usually not used in regular applications, but exposed for completeness reasons).
+  (usually not directly used in regular applications, but exposed for completeness reasons).
 
 - `class View extends mvc.View { ... }`:<br/>
   Define an application View class based on ComponentJS-MVC's View class.
+  The `mvc.View` class inherits from the `mvc.Component` class.
 
 - `class Model extends mvc.Model { ... }`:<br/>
   Define an application Model class based on ComponentJS-MVC's Model class.
+  The `mvc.Model` class inherits from the `mvc.Component` class.
 
 - `class Controller extends mvc.Controller`:<br/>
   Define an application Controller class based on ComponentJS-MVC's Controller class.
+  The `mvc.Controller` class inherits from the `mvc.Component` class.
 
-### Methods:
+### Methods (Component/View/Model/Controller Classes):
+
+- `mvc.Component::cs(...): ComponentJS`:<br/>
+  Use the configured ComponentJS by just passing-through execution
+  to ComponentJS. Use this in case you want to directly access the
+  ComponentJS API from within a ComponentJS-MVC component.
+
+- `mvc.Component::establish(...): ComponentJS`:<br/>
+
+- `mvc.Component::demolish(...): ComponentJS`:<br/>
+
+- `mvc.Component::my(...): ComponentJS`:<br/>
+
+- `mvc.Component::exists(...): ComponentJS`:<br/>
+
+- `mvc.Component::state(...): ComponentJS`:<br/>
+
+- `mvc.Component::guard(...): ComponentJS`:<br/>
+
+- `mvc.Component::await(...): ComponentJS`:<br/>
+
+- `mvc.Component::observe(...): ComponentJS`:<br/>
+
+- `mvc.Component::value(...): ComponentJS`:<br/>
+
+- `mvc.Component::touch(...): ComponentJS`:<br/>
+
+- `mvc.Component::subscribe(...): ComponentJS`:<br/>
+
+- `mvc.Component::publish(...): ComponentJS`:<br/>
+
+- `mvc.Component::register(...): ComponentJS`:<br/>
+
+- `mvc.Component::call(...): ComponentJS`:<br/>
+
+### Methods (View Class):
 
 - `mvc.View::$(selector: String, baseElement?: DOMElement): jQuery`:<br/>
   Use the configured jQuery by just passing-through execution to jQuery.
@@ -192,6 +230,19 @@ Application Programming Interface (API)
   has no `spool` field, it is automatically created with the value of
   `mvc.ComponentJS(this).state()`. The return value is the value of
   `ComponentJS::plug()`.
+
+### Methods (Model Class):
+
+- `mvc.Model::model(spec: Object): Void`:<br/>
+  This just passes-through `spec` to the `ComponentJS::model()` method.
+
+### Methods (Controller Class):
+
+- `mvc.Controller::sv(): Object`:<br/>
+  This is a short-hand for `mvc.ComponentJS(this).property("sv")`
+  and simplifys the fetching of the underlying Service API, which
+  beforehand should be placed into a property on the root component via
+  `mvc.ComponentJS("/").property("sv", value)`.
 
 License
 -------
