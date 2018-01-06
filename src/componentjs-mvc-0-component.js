@@ -88,6 +88,9 @@ export default function (MVC) {
         guard (...args) {
             return MVC.ComponentJS(this).guard(...args)
         }
+        await (...args) {
+            return MVC.ComponentJS(this).await(...args)
+        }
 
         /*  wrap model-related methods  */
         observe (name, func, options) {
