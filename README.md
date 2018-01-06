@@ -187,7 +187,7 @@ Application Programming Interface (API)
 - `mvc.Component::my(id: String): ComponentJS`:<br/>
   This fetches (by id) a particular component previously created with `mvc.Component::establish()`.
 
-- `mvc.Component::exists(...): ComponentJS`:<br/>
+- `mvc.Component::exists(id: String): ComponentJS`:<br/>
   This checks (by id) whether a particular component previously was
   created with `mvc.Component::establish()` and was still not destroyed
   with `mvc.Component::demolish()`.
@@ -202,24 +202,65 @@ Application Programming Interface (API)
   `args` positional arguments are just passed-through. The return value
   is the value of `ComponentJS::guard()`.
 
-- `mvc.Component::await(...): ComponentJS`:<br/>
+- `mvc.Component::await(...args: any[]): ComponentJS`:<br/>
   This is a convenience wrapper around `ComponentJS::await()`. The
   `args` positional arguments are just passed-through. The return value
   is the value of `ComponentJS::await()`.
 
-- `mvc.Component::observe(...): ComponentJS`:<br/>
+- `mvc.Component::observe(name: String|String[], func: Function, options?: Object): mvc.Component`:<br/>
+  This is a convenience wrapper around `ComponentJS::observe()`.
+  It internally basically calls `mvc.ComponentJS(this[, "model"])
+  .observe({ name, func, spool: mvc.ComponentJS(this).state(), noevent:
+  true, ...options })`. The twists of this wrapper are: it performs
+  automatical spooling, uses no event argument in the `func` callback
+  and automatically steps down to a `model` child if `this` is a
+  `mvc.Controller`. Additionally, instead of a single `name`, it allows
+  you to pass an array of names.
 
-- `mvc.Component::value(...): ComponentJS`:<br/>
+- `mvc.Component::value(...args: any[]): any`:<br/>
+  This is a convenience wrapper around `ComponentJS::value()`. It
+  internally basically calls `mvc.ComponentJS(this[, "model"])
+  .value(...args)`. The main twist of this wrapper is: it automatically
+  steps down to a `model` child if `this` is a `mvc.Controller`.
 
-- `mvc.Component::touch(...): ComponentJS`:<br/>
+- `mvc.Component::touch(...args: any[]): mvc.Component`:<br/>
+  This is a convenience wrapper around `ComponentJS::touch()`. It
+  internally basically calls `mvc.ComponentJS(this[, "model"])
+  .touch(...args)`. The main twist of this wrapper is: it automatically
+  steps down to a `model` child if `this` is a `mvc.Controller`.
 
-- `mvc.Component::subscribe(...): ComponentJS`:<br/>
+- `mvc.Component::subscribe(name: String|String[], func: Function, options?: Object): mvc.Component`:<br/>
+  This is a convenience wrapper around `ComponentJS::subscribe()`. It
+  internally basically calls `mvc.ComponentJS(this).subscribe({ name,
+  func, spool: mvc.ComponentJS(this).state(), noevent: true, capturing:
+  false, spreading: false, bubbling: true, ...options })`. The twists
+  of this wrapper are: it performs automatical spooling, uses no event
+  argument in the `func` callback, disables capturing and spreading, and
+  enables bubbling. Additionally, instead of a single `name`, it allows
+  you to pass an array of names.
 
-- `mvc.Component::publish(...): ComponentJS`:<br/>
+- `mvc.Component::publish(name: String, args: any[], options?: Object): any`:<br/>
+  This is a convenience wrapper around `ComponentJS::publish()`. It
+  internally basically calls `mvc.ComponentJS(this).publish({ name,
+  args, directresult: true, capturing: true, spreading: false, bubbling:
+  true, ...options })`. The twists of this wrapper are: enables direct
+  results, enables capturing and bubbling and disables spreading.
 
-- `mvc.Component::register(...): ComponentJS`:<br/>
+- `mvc.Component::register(name: String|String[], func: Function, options?: Object): mvc.Component`:<br/>
+  This is a convenience wrapper around `ComponentJS::register()`.
+  It internally basically calls `mvc.ComponentJS(this).register({
+  name, func, spool: mvc.ComponentJS(this).state(), capturing: false,
+  spreading: false, bubbling: true, ...options })`. The twists of this
+  wrapper are: it performs automatical spooling, disables capturing and
+  spreading, and enables bubbling. Additionally, instead of a single
+  `name`, it allows you to pass an array of names.
 
-- `mvc.Component::call(...): ComponentJS`:<br/>
+- `mvc.Component::call(name: String, args: any[], options?: Object): any`:<br/>
+  This is a convenience wrapper around `ComponentJS::call()`. It
+  internally basically calls `mvc.ComponentJS(this).call({ name, args,
+  capturing: true, spreading: false, bubbling: true, ...options })`. The
+  twists of this wrapper are: it enables capturing, disabled spreading
+  and enables bubbling.
 
 ### Methods (View Class):
 
