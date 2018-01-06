@@ -93,7 +93,7 @@ export default function (MVC) {
         }
 
         /*  wrap model-related methods  */
-        observe (name, func, options) {
+        observe (name, func, options = {}) {
             if (!(typeof name === "object" && name instanceof Array))
                 name = [ name ]
             name.forEach((name) => {
@@ -119,13 +119,14 @@ export default function (MVC) {
         }
         touch (...args) {
             if (MVC.ComponentJS(this).marked("controller"))
-                return MVC.ComponentJS(this, "model").touch(...args)
+                MVC.ComponentJS(this, "model").touch(...args)
             else
-                return MVC.ComponentJS(this).touch(...args)
+                MVC.ComponentJS(this).touch(...args)
+            return this
         }
 
         /*  wrap event-related methods  */
-        subscribe (name, func, options) {
+        subscribe (name, func, options = {}) {
             if (!(typeof name === "object" && name instanceof Array))
                 name = [ name ]
             name.forEach((name) => {
@@ -143,7 +144,7 @@ export default function (MVC) {
             })
             return this
         }
-        publish (name, args, options) {
+        publish (name, args, options = {}) {
             let argv = args
             if (!(typeof args === "object" && args instanceof Array))
                 argv = [ args ]
@@ -160,7 +161,7 @@ export default function (MVC) {
         }
 
         /*  wrap service-related methods  */
-        register (name, func, options) {
+        register (name, func, options = {}) {
             if (!(typeof name === "object" && name instanceof Array))
                 name = [ name ]
             name.forEach((name) => {
@@ -177,7 +178,7 @@ export default function (MVC) {
             })
             return this
         }
-        call (name, args, options) {
+        call (name, args, options = {}) {
             let argv = args
             if (!(typeof args === "object" && args instanceof Array))
                 argv = [ args ]
