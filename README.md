@@ -2,8 +2,6 @@
 ComponentJS MVC
 ===============
 
-[STILL WORK IN PROGRESS -- USE WITH CAUTION]
-
 Model-View-Controller Component Roles.
 
 <p/>
@@ -82,7 +80,7 @@ class Controller extends mvc.Controller {
 Application Programming Interface (API)
 ---------------------------------------
 
-This is still missing.
+FIXME: This is still missing.
 In the meantime check the source code, please!
 
 License
