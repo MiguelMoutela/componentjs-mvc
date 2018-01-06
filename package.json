@@ -21,7 +21,7 @@
     "homepage":        "https://github.com/rse/componentjs-mvc",
     "bugs":            "https://github.com/rse/componentjs-mvc/issues",
     "dependencies": {
-        "latching":             "~0.9.7"
+        "latching":                             "~0.9.7"
     },
     "devDependencies": {
         "grunt":                                "~1.0.1",
@@ -32,6 +32,12 @@
         "grunt-jscs":                           "~3.0.1",
         "grunt-eslint":                         "~20.1.0",
         "babel-eslint":                         "~8.1.2",
+        "eslint":                               "~4.14.0",
+        "eslint-config-standard":               "~10.2.1",
+        "eslint-plugin-standard":               "~3.0.1",
+        "eslint-plugin-promise":                "~3.6.0",
+        "eslint-plugin-import":                 "~2.8.0",
+        "eslint-plugin-node":                   "~5.2.1",
         "mocha":                                "~4.1.0",
         "chai":                                 "~4.1.2",
         "babelify":                             "~8.0.0",

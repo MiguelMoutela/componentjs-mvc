@@ -39,7 +39,7 @@ module.exports = function (grunt) {
         },
         eslint: {
             options: {
-                configFile: "eslint.json"
+                configFile: "eslint.yaml"
             },
             "componentjs-mvc": [ "src/**/*.js" ]
         },
@@ -54,7 +54,7 @@ module.exports = function (grunt) {
                             presets: [ "es2015", "es2016", "es2017" ],
                             plugins: [ "transform-object-assign" ]
                         } ],
-                        [ "uglifyify", { global: true, sourcemap: false } ]
+                        [ "uglifyify", { global: true, sourceMap: false } ]
                     ],
                     plugin: [
                         [ "browserify-derequire" ]
