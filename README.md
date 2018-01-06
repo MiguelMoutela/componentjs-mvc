@@ -135,6 +135,18 @@ Application Programming Interface (API)
   $(".perfect-scroll-bar", mask.$el).perfectScrollbar({ ... }) })` to
   apply the jQuery Perfect-Scrollbar plugin.
 
+- `mvc.latch("establish:post-create", ({ id, comp, obj }) => { ... })`:<br/>
+  Hook into the `mvc.Component::establish()` method after each component
+  was created. Use this to post-adjust created components. The `comp`
+  is the created component, `obj` the attached backing object derived from the
+  arguments to `mvc.Component::establish()`.
+
+- `mvc.latch("establish:pre-destroy", ({ id, comp, obj }) => { ... })`:<br/>
+  Hook into the `mvc.Component::demolish()` method before each component
+  will be destroyed. Use this to pre-process components. The `comp`
+  is the created component, `obj` the attached backing object derived from the
+  arguments to `mvc.Component::establish()`.
+
 ### Classes:
 
 - `class Component extends mvc.Component { ... }`:<br/>
@@ -160,19 +172,40 @@ Application Programming Interface (API)
   to ComponentJS. Use this in case you want to directly access the
   ComponentJS API from within a ComponentJS-MVC component.
 
-- `mvc.Component::establish(...): ComponentJS`:<br/>
+- `mvc.Component::establish(anchor?: Component, tree: String, classes: Object|Object[], autoincrease?: Boolean = true, autodecrease?: Boolean = false): mvc.Component`:<br/>
+  This is a convenience wrapper around `ComponentJS::create()`.
+  It internally basically calls `mvc.ComponentJS(this[, anchor]).create(tree, classes.map((Clz) => typeof Clz === "function" ? new Clz() : Clz))`
+  and remembers the created components by their id for forthcoming use via `mvc.Component::my()`.
+  It also calls `ComponentJS::state_auto_increase(autoincrease)`
+  and `ComponentJS::state_auto_decrease(autodecrease)` on all created components.
 
-- `mvc.Component::demolish(...): ComponentJS`:<br/>
+- `mvc.Component::demolish(id?: String): mvc.Component`:<br/>
+  This is a convenience wrapper around `ComponentJS::destroy()`.
+  It either destroys just the specified component (by id) or all
+  components previously created with `mvc.Component::establish()`.
 
-- `mvc.Component::my(...): ComponentJS`:<br/>
+- `mvc.Component::my(id: String): ComponentJS`:<br/>
+  This fetches (by id) a particular component previously created with `mvc.Component::establish()`.
 
 - `mvc.Component::exists(...): ComponentJS`:<br/>
+  This checks (by id) whether a particular component previously was
+  created with `mvc.Component::establish()` and was still not destroyed
+  with `mvc.Component::demolish()`.
 
-- `mvc.Component::state(...): ComponentJS`:<br/>
+- `mvc.Component::state(...args: any[]): ComponentJS`:<br/>
+  This is a convenience wrapper around `ComponentJS::state()`. The
+  `args` positional arguments are just passed-through. The return value
+  is the value of `ComponentJS::state()`.
 
-- `mvc.Component::guard(...): ComponentJS`:<br/>
+- `mvc.Component::guard(...args: any[]): ComponentJS`:<br/>
+  This is a convenience wrapper around `ComponentJS::guard()`. The
+  `args` positional arguments are just passed-through. The return value
+  is the value of `ComponentJS::guard()`.
 
 - `mvc.Component::await(...): ComponentJS`:<br/>
+  This is a convenience wrapper around `ComponentJS::await()`. The
+  `args` positional arguments are just passed-through. The return value
+  is the value of `ComponentJS::await()`.
 
 - `mvc.Component::observe(...): ComponentJS`:<br/>
 
