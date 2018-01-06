@@ -45,23 +45,36 @@ $ bower install componentjs-mvc
 Usage
 -----
 
+### Main Procedure:
+
 ```js
 import $   from "jquery"
 import cs  from "componentjs"
+import          "componentjs/component.plugin.vue.js"
 import mvc from "componentjs-mvc"
 
-mvc.jQuery      = $
-mvc.ComponentJS = cs
+class App {
+    static main () {
+        cs.bootstrap()
 
-mvc.latch("mask:vue-options", ({ id, options }) => {
-    /*  example: provide id to Vue-I18Next Vue plugin  */
-    options.i18nextNamespace = id
-})
-mvc.latch("mask:vue-result", ({ id, mask }) => {
-    /*  example: integrate Perfect-Scroll-Bar jQuery plugin  */
-    $(".perfect-scroll-bar", mask.$el).perfectScrollbar({})
-})
+        mvc.jQuery      = $
+        mvc.ComponentJS = cs
+        mvc.Plugin()
+
+        mvc.latch("mask:vue-options", ({ id, options }) => {
+            /*  example: provide id to Vue-I18Next Vue plugin  */
+            options.i18nextNamespace = id
+        })
+        mvc.latch("mask:vue-result", ({ id, mask }) => {
+            /*  example: integrate Perfect-Scroll-Bar jQuery plugin  */
+            $(".perfect-scroll-bar", mask.$el).perfectScrollbar({})
+        })
+    }
+}
+
 ```
+
+### Dialog Component:
 
 ```js
 import mvc from "componentjs-mvc"
@@ -80,8 +93,105 @@ class Controller extends mvc.Controller {
 Application Programming Interface (API)
 ---------------------------------------
 
-FIXME: This is still missing.
-In the meantime check the source code, please!
+### Globals:
+
+- `import mvc from "componentjs-mvc"`:<br/>
+  Load the ComponentJS-MVC library.
+
+- `mvc.ComponentJS = ...`:<br/>
+  Configure ComponentJS-MVC to use a particular instance of the mandatory ComponentJS framework.
+  By default ComponentJS-MVC uses the global symbol `ComponentJS`.
+
+- `mvc.jQuery = ...`:<br/>
+  Configure ComponentJS-MVC to use a particular instance of the optional
+  jQuery library. By default ComponentJS-MVC uses the global symbol
+  `jQuery`. jQuery is necessary only if the `mvc.View::$()` method
+  should be used. jQuery and jQuery-Markup are necessary only if the
+  `mvc.View::mask()` method should be used with neither `template` nor
+  `render` options.
+
+- `mvc.Plugin()`:<br/>
+  Hook into ComponentJS as an `mvc` plugin to automatically mark
+  dynamically created ComponentJS-MVC-based components with the proper
+  marker for the ComponentJS debugger without having to override the
+  `create()` method and this way cause a `super.create()` burden on the
+  users of the ComponentJS-MVC classes. Call this once in your main
+  procedure if you want proper colors in the ComponentJS debugger for
+  ComponentJS-MVC-based components.
+
+### Hooks:
+
+- `mvc.latch("mask:vue-options", (({ id, options }) => { ... })`:<br/>
+  Hook into the `mvc.View::mask()` method just before `mask = ComponentJS::vue(options)`
+  is called internally. Use this to set particular options for VueJS.
+  For instance, use `mvc.latch("mask:vue-options", ({ id, options }) => { options.i18nextNamespace = id })`
+  to set the I18N namespace when using VueJS and the Vue-I18Next plugin together.
+
+- `mvc.latch("mask:vue-result", (({ id, result }) => { ... })`:<br/>
+  Hook into the `mvc.View::mask()` method just after `mask
+  = ComponentJS::vue(options)` is called internally. Use
+  this to post-process the VueJS instance. For instance,
+  use `mvc.latch("mask:vue-result", (({ id, result }) => {
+  $(".perfect-scroll-bar", mask.$el).perfectScrollbar({ ... }) })` to
+  apply the jQuery Perfect-Scrollbar plugin.
+
+### Classes:
+
+- `class Component extends mvc.Component { ... }`:<br/>
+  Define an application Component class based on ComponentJS-MVC's Component class
+  (usually not used in regular applications, but exposed for completeness reasons).
+
+- `class View extends mvc.View { ... }`:<br/>
+  Define an application View class based on ComponentJS-MVC's View class.
+
+- `class Model extends mvc.Model { ... }`:<br/>
+  Define an application Model class based on ComponentJS-MVC's Model class.
+
+- `class Controller extends mvc.Controller`:<br/>
+  Define an application Controller class based on ComponentJS-MVC's Controller class.
+
+### Methods:
+
+- `mvc.View::$(selector: String, baseElement?: DOMElement): jQuery`:<br/>
+  Use the configured jQuery by just passing-through execution to jQuery.
+  Use this in case you want to directly manipulate the DOM via jQuery
+  from within a View component. Use with caution, as jQuery and VueJS
+  can conflict.
+
+- `mvc.View::mask(id: String, options?: any): VueJS`:<br/>
+  Create a UI Mask with the help of VueJS. The `id` has to be unique
+  within the UI, although it is not directly used by ComponentJS-MVC
+  itself. It is intended to be passed through to the `mask:vue-options`
+  hook and used there accordingly. The `options` are just passed-through
+  to the `ComponentJS::vue()` method. Hence, this method requires the
+  ComponentJS `vue` plugin to be loaded first.
+
+- `mvc.View::socket(ctx: Object, plug: Function, unplug: Function): Number`:<br/>
+  `mvc.View::socket(options: { ctx: Object, plug?: Function, unplug?: Function, ... }): Number`:<br/>
+  This is a convenience wrapper around `ComponentJS::socket()`. The
+  `ctx`, `plug` and `unplug` positional arguments are just converted
+  to the `options` form of method calling. If the `options` argument
+  has no `spool` field, it is automatically created with the value of
+  `mvc.ComponentJS(this).state()`. The return value is the value of
+  `ComponentJS::socket()`.
+
+- `mvc.View::link(target: Object, socket: String): Number`:<br/>
+  `mvc.View::link(options: { target: Object, socket: String, ... }): Number`:<br/>
+  This is a convenience wrapper around `ComponentJS::link()`. The
+  `target` and `socket` positional arguments are just converted
+  to the `options` form of method calling. If the `options` argument
+  has no `spool` field, it is automatically created with the value of
+  `mvc.ComponentJS(this).state()`. The return value is the value of
+  `ComponentJS::link()`.
+
+- `mvc.View::plug(object: Object): Number`:<br/>
+  `mvc.View::plug(options: { object: Object, ... }): Number`:<br/>
+  This is a convenience wrapper around `ComponentJS::plug()`. The
+  `object` positional argument is just converted
+  to the `options` form of method calling. If the `options` argument
+  has no `spool` field, it is automatically created with the value of
+  `mvc.ComponentJS(this).state()`. The return value is the value of
+  `ComponentJS::plug()`.
 
 License
 -------
