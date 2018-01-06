@@ -28,8 +28,8 @@ export default (MVC) => {
         MVC.ComponentJS.plugin("mvc", (_cs /*, $cs, GLOBAL */) => {
             /*  mark created components with the proper marker for the
                 ComponentJS debugger without having to override the
-                create() method and this way case a "super.create()"
-                burden on the users of the MVC classes. */
+                create() method and this way cause a "super.create()"
+                burden on the users of the MVC classes.  */
             _cs.latch("ComponentJS:comp-created", (comp) => {
                 let obj = comp.obj()
                 if (obj !== null && typeof obj === "object") {
