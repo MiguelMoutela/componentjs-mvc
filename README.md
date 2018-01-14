@@ -32,13 +32,13 @@ Installation
 ------------
 
 ```shell
-# with the help of the NPM package manager
+# with the help of the NPM package manager (primary approach)
 $ npm install componentjs-mvc
 
-# with the help of the YARN package manager
+# with the help of the YARN package manager (alternative approach)
 $ yarn add componentjs-mvc
 
-# with the help of the Bower package manager
+# with the help of the Bower package manager (obsolete approach)
 $ bower install componentjs-mvc
 ```
 
