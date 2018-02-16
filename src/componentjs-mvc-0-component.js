@@ -22,6 +22,17 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+/*  helper function for finding the model of a controller  */
+const modelOf = (comp) => {
+    if (comp.marked("controller")) {
+        let children = comp.children()
+        for (let i = 0; i < children.length; i++)
+            if (children[i].marked("model"))
+                return children[i]
+    }
+    return comp
+}
+
 export default function (MVC) {
     /*  abstract class for components of any role  */
     return class Component {
@@ -104,24 +115,15 @@ export default function (MVC) {
                     name:    name,
                     func:    func
                 })
-                if (MVC.ComponentJS(this).marked("controller"))
-                    return MVC.ComponentJS(this, "model").observe(opts)
-                else
-                    return MVC.ComponentJS(this).observe(opts)
+                modelOf(MVC.ComponentJS(this)).observe(opts)
             })
             return this
         }
         value (...args) {
-            if (MVC.ComponentJS(this).marked("controller"))
-                return MVC.ComponentJS(this, "model").value(...args)
-            else
-                return MVC.ComponentJS(this).value(...args)
+            return modelOf(MVC.ComponentJS(this)).value(...args)
         }
         touch (...args) {
-            if (MVC.ComponentJS(this).marked("controller"))
-                MVC.ComponentJS(this, "model").touch(...args)
-            else
-                MVC.ComponentJS(this).touch(...args)
+            modelOf(MVC.ComponentJS(this)).touch(...args)
             return this
         }
 
