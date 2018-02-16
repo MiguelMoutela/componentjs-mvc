@@ -49,18 +49,24 @@ Usage
 
 ```js
 import $   from "jquery"
+
 import cs  from "componentjs"
 import          "componentjs/component.plugin.vue.js"
+
 import mvc from "componentjs-mvc"
+
+import SV  from "./service"
 
 class App {
     static main () {
+        /*  fire up ComponentJS  */
         cs.bootstrap()
+        cs("/").property("sv", new SV())
 
+        /*  fire up ComponentJS MVC  */
         mvc.jQuery      = $
         mvc.ComponentJS = cs
         mvc.Plugin()
-
         mvc.latch("mask:vue-options", ({ id, options }) => {
             /*  example: provide id to Vue-I18Next Vue plugin  */
             options.i18nextNamespace = id
