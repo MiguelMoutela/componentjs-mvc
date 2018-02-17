@@ -59,14 +59,14 @@ export default function (MVC) {
             }
 
             /*  allow others to hook into our processing initially  */
-            MVC.hook("mask:vue-options", "none", { id: id, options: options })
+            MVC.hook("mask:vue-options", "none", { comp: MVC.ComponentJS(this), id: id, options: options })
 
             /*  pass-through options to ComponentJS-Vue plugin  */
             let spool = MVC.ComponentJS(this).state()
             let mask  = MVC.ComponentJS(this).vue(options, spool)
 
             /*  allow others to hook into our processing finally  */
-            MVC.hook("mask:vue-result", "none", { id: id, mask: mask })
+            MVC.hook("mask:vue-result", "none", { comp: MVC.ComponentJS(this), id: id, mask: mask })
 
             /*  return the Vue mask object  */
             return mask
