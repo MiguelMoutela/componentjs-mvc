@@ -125,10 +125,10 @@ export default function (MVC) {
                     noevent: true
                 }, options, {
                     name:    name,
-                    func:    () => {
+                    func:    (...args) => {
                         /*  wrap to ensure return value is undefined or an
                             "async" callback would update the model field  */
-                        func()
+                        func(...args)
                     }
                 })
                 modelOf(MVC.ComponentJS(this)).observe(opts)
