@@ -213,6 +213,13 @@ Application Programming Interface (API)
   `args` positional arguments are just passed-through. The return value
   is the value of `ComponentJS::await()`.
 
+- `mvc.Component::spool(func: Function, options?: Object): mvc.Component`:<br/>
+  This is a convenience wrapper around `ComponentJS::spool()`. It
+  internally basically calls `mvc.ComponentJS(this).spool({ name:
+  mvc.ComponentJS(this).state(), ctx: this, func: func, ...options })`.
+  The twist of this wrapper is that it automatically uses the component
+  state based spool.
+
 - `mvc.Component::observe(name: String|String[], func: Function, options?: Object): mvc.Component`:<br/>
   This is a convenience wrapper around `ComponentJS::observe()`.
   It internally basically calls `mvc.ComponentJS(this[, "model"])

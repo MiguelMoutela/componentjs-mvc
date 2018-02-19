@@ -103,6 +103,18 @@ export default function (MVC) {
             return MVC.ComponentJS(this).await(...args)
         }
 
+        /*  wrap spool-related methods  */
+        spool (func, options = {}) {
+            let opts = Object.assign({}, {
+                name:    MVC.ComponentJS(this).state(),
+                ctx:     this
+            }, options, {
+                func:    func
+            })
+            MVC.ComponentJS(this).spool(opts)
+            return this
+        }
+
         /*  wrap model-related methods  */
         observe (name, func, options = {}) {
             if (!(typeof name === "object" && name instanceof Array))
