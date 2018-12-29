@@ -24,11 +24,10 @@
 
 /* global module: true */
 module.exports = function (grunt) {
-    grunt.loadNpmTasks("grunt-contrib-jshint");
-    grunt.loadNpmTasks("grunt-contrib-clean");
-    grunt.loadNpmTasks("grunt-browserify");
-    grunt.loadNpmTasks("grunt-eslint");
-
+    grunt.loadNpmTasks("grunt-contrib-jshint")
+    grunt.loadNpmTasks("grunt-contrib-clean")
+    grunt.loadNpmTasks("grunt-browserify")
+    grunt.loadNpmTasks("grunt-eslint")
     grunt.initConfig({
         jshint: {
             options: {
@@ -51,8 +50,23 @@ module.exports = function (grunt) {
                 options: {
                     transform: [
                         [ "babelify", {
-                            presets: [ "es2015", "es2016", "es2017" ],
-                            plugins: [ "transform-object-assign" ]
+                            presets: [
+                                [ "@babel/preset-env", {
+                                    "targets": {
+                                        "browsers": "last 2 versions, > 1%, ie 11"
+                                    }
+                                } ]
+                            ],
+                            plugins: [
+                                [ "@babel/plugin-transform-runtime", {
+                                    "helpers":     false,
+                                    "regenerator": false
+                                } ],
+                                [ "@babel/plugin-transform-object-assign", {
+                                    "helpers":     false,
+                                    "regenerator": false
+                                } ],
+                            ]
                         } ],
                         [ "uglifyify", { global: true, sourceMap: false } ]
                     ],
@@ -70,7 +84,7 @@ module.exports = function (grunt) {
             clean: [],
             distclean: [ "node_modules" ]
         }
-    });
-    grunt.registerTask("default", [ "jshint", "eslint", "browserify" ]);
-};
+    })
+    grunt.registerTask("default", [ "jshint", "eslint", "browserify" ])
+}
 
